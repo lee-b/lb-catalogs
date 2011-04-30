@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Kintassa Galleries
-Plugin URI: http://www.kintassa.com/projects/kintassa_galleries/
-Description: A flexible image gallery system
+Plugin Name: Kintassa Catalog
+Plugin URI: http://www.kintassa.com/projects/swanvale_catalog/
+Description: A catalog page editing and presentation plugin
 Version: 1.0
 Author: Lee Braiden
 Author URI: http://www.kintassa.com
@@ -18,7 +18,7 @@ require_once("src/kgal_shortcode.php");
 require_once("src/kgal_db.php");
 require_once("src/kgal_tags.php");
 
-class KintassaGalleryPlugin extends KintassaWPPlugin {
+class CatalogPlugin extends KintassaWPPlugin {
 	function __construct() {
 		parent::__construct(__file__);
 
@@ -62,6 +62,6 @@ class KintassaGalleryPlugin extends KintassaWPPlugin {
 }
 
 // instanciate the plugin
-$kGalleryPlugin = new KintassaGalleryPlugin();
+$kCatalogPlugin = new CatalogPlugin();
 
 ?>
