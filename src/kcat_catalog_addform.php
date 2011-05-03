@@ -6,10 +6,10 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_gallery_form.php");
+require_once('kcat_catalog_form.php');
 
-class KGalleryAddForm extends KGalleryForm {
-	function KGalleryAddForm($name) {
+class KintassaCatalogAddForm extends KintassaCatalogForm {
+	function __construct($name) {
 		$default_vals = array(
 			"name"			=> "",
 			"width"			=> 320,
@@ -20,13 +20,13 @@ class KGalleryAddForm extends KGalleryForm {
 	}
 
 	function render_success() {
-		$page_args = array("mode" => "gallery_edit", "id" => $this->id);
-		$edit_uri = KintassaUtils::admin_path('KGalleryMenu', 'mainpage', $page_args);
+		$page_args = array("mode" => "catalog_edit", "id" => $this->id);
+		$edit_uri = KintassaUtils::admin_path('KintassaCatalogMenu', 'mainpage', $page_args);
 
-		echo("<h2>" . __("Gallery Added") . "</h2>");
+		echo("<h2>" . __("Catalog Added") . "</h2>");
 		echo(
 			"<p>"
-			. __("Your gallery has been added.  You might want to <a href=\"{$edit_uri}\">Edit this gallery</a> now.")
+			. __("Your catalog has been added.  You might want to <a href=\"{$edit_uri}\">Edit this catalog</a> now.")
 			. "</p>"
 		);
 	}
@@ -38,7 +38,7 @@ class KGalleryAddForm extends KGalleryForm {
 		$dat = $this->data();
 		$fmt = $this->data_format();
 
-		$wpdb->insert(KintassaGallery::table_name(), $dat, $fmt);
+		$wpdb->insert(KintassaCatalog::table_name(), $dat, $fmt);
 		$this->id = $wpdb->insert_id;
 
 		return true;

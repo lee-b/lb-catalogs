@@ -32,9 +32,9 @@ require_once($wp_load);
 
 // real code starts here /////////////////////////////////////////////////////
 
-require_once("../src/kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kgal_image_finder.php");
+require_once("../src/kcat_config.php");
+require_once(KCAT_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
+require_once(KCAT_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kcat_image_finder.php");
 
 function send_thumb($fname, $width, $height) {
 	$finder = new KintassaThumbnailFinder($width, $height);

@@ -6,9 +6,9 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once('kgal_config.php');
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . 'kintassa_core/kin_micro_orm.php');
-require_once('kgal_image.php');
+require_once(kintassa_core('kin_micro_orm.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog_entry.php');
 
 // load applets
 $applets_dir = dirname(dirname(__file__)) . DIRECTORY_SEPARATOR . "applets";
@@ -22,10 +22,10 @@ while ($applet_fname = readdir($applets_dir_handle)) {
 	}
 }
 
-class KintassaGallery extends KintassaMicroORMObject {
+class KintassaCatalog extends KintassaMicroORMObject {
 	static function table_name() {
 		global $wpdb;
-		return $wpdb->prefix . "kintassa_gallery";
+		return $wpdb->prefix . "kintassa_catalog";
 	}
 
 	function save() {
@@ -73,26 +73,26 @@ class KintassaGallery extends KintassaMicroORMObject {
 	function render($width = null, $height = null) {
 		assert($this->id != null);
 
-		if (!KintassaGalleryApplet::is_valid_applet($this->display_mode)) {
+		if (!KintassaCatalogApplet::is_valid_applet($this->display_mode)) {
 			$this->display_mode = 'invalid';
 		}
 
-		$applet_info = KintassaGalleryApplet::applet_info($this->display_mode);
+		$applet_info = KintassaCatalogApplet::applet_info($this->display_mode);
 		$applet_class = $applet_info['class'];
 
 		$applet = new $applet_class($this, $width=$width, $height=$height);
 		$applet->render();
 	}
 
-	function images() {
+	function catalogs() {
 		global $wpdb;
 
-		$table_name = KintassaGalleryImage::table_name();
-		$rows = $wpdb->get_results("SELECT id,sort_pri FROM `{$table_name}` WHERE gallery_id={$this->id} ORDER BY sort_pri ASC,name ASC");
+		$table_name = KintassaCatalogEntry::table_name();
+		$rows = $wpdb->get_results("SELECT id,sort_pri FROM `{$table_name}` WHERE catalog_id={$this->id} ORDER BY sort_pri ASC,name ASC");
 
 		$images = array();
 		foreach ($rows as $row) {
-			$img = new KintassaGalleryImage($row->id);
+			$img = new KintassaCatalogEntry($row->id);
 			$images[] = $img;
 		}
 

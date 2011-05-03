@@ -6,15 +6,15 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
-require_once("kgal_galleryimage_form.php");
-require_once("kgal_image.php");
+require_once(kintassa_core('kin_utils.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog_entry_form.php');
+require_once('kcat_catalog_entry.php');
 
-class KGalleryImageEditForm extends KGalleryImageForm {
-	function __construct($name, $gallery_image_id) {
-		$this->id = $gallery_image_id;
-		$img = new KintassaGalleryImage($gallery_image_id);
+class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
+	function __construct($name, $cat_entry_id) {
+		$this->id = $cat_entry_id;
+		$img = new KintassaCatalogEntry($cat_entry_id);
 
 		$default_vals = array(
 			"name"				=> $img->name,
@@ -22,16 +22,16 @@ class KGalleryImageEditForm extends KGalleryImageForm {
 			"filepath"			=> $img->filepath,
 			"description"		=> $img->description,
 			"mimetype"			=> $img->mimetype,
-			"gallery_id"		=> $img->gallery_id,
+			"catalog_id"		=> $img->catalog_id,
 		);
 		parent::__construct($name, $default_vals);
 
-		$this->id_field = new KintassaHiddenField('id', $name='id', $default_val = $gallery_image_id);
+		$this->id_field = new KintassaHiddenField('id', $name='id', $default_val = $cat_entry_id);
 		$this->add_child($this->id_field);
 	}
 
 	function render_success() {
-		echo("<p>" . __("Your gallery image changes have been saved.  Thank you.") . "</p>");
+		echo("<p>" . __("Your catalog entry changes have been saved.  Thank you.") . "</p>");
 
 		$this->gallery_return_link();
 	}
@@ -45,7 +45,7 @@ class KGalleryImageEditForm extends KGalleryImageForm {
 		$where_dat = array("id"	=> $this->id);
 		$where_fmt = array("%d");
 
-		$res = $wpdb->update(KintassaGalleryImage::table_name(), $dat, $where_dat, $fmt, $where_fmt);
+		$res = $wpdb->update(KintassaCatalogEntry::table_name(), $dat, $where_dat, $fmt, $where_fmt);
 		if (!$res) return false;
 
 		return true;

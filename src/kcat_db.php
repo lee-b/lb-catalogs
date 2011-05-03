@@ -6,15 +6,15 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_gallery.php");
-require_once("kgal_image.php");
+require_once('kcat_catalog.php');
+require_once('kcat_catalog_entry.php');
 
 global $wpdb;
 
-function kgallery_create_tables() {
+function kintassa_catalogs_create_tables() {
 	global $wpdb;
 
-	$gallery_tbl_name = KintassaGallery::table_name();
+	$gallery_tbl_name = KintassaCatalog::table_name();
 
 	$gallery_tbl_sql = <<<SQL
 		CREATE TABLE {$gallery_tbl_name} (
@@ -30,17 +30,17 @@ function kgallery_create_tables() {
 		COLLATE = utf8_unicode_ci;
 SQL;
 
-	$images_tbl_name = KintassaGalleryImage::table_name();
+	$entries_tbl_name = KintassaCatalogEntry::table_name();
 
-	$images_tbl_sql = <<<SQL
-		CREATE  TABLE `{$images_tbl_name}` (
+	$entries_tbl_sql = <<<SQL
+		CREATE  TABLE `{$entries_tbl_name}` (
 		  `id` INT NOT NULL AUTO_INCREMENT ,
 		  `sort_pri` INT NULL DEFAULT 0 ,
 		  `filepath` VARCHAR(4096) NULL ,
 		  `name` VARCHAR(255) NULL ,
 		  `mimetype` VARCHAR(255) NULL ,
 		  `description` VARCHAR(255) NULL ,
-		  `gallery_id` INT NOT NULL,
+		  `catalog_id` INT NOT NULL,
 		  PRIMARY KEY (`id`)
 		)
 		ENGINE = InnoDB
@@ -52,14 +52,19 @@ SQL;
 		$wpdb->query($gallery_tbl_sql);
 	}
 
-	if (!KintassaMicroORMObject::table_exists($images_tbl_name)) {
-		$wpdb->query($images_tbl_sql);
+	if (!KintassaMicroORMObject::table_exists($entries_tbl_name)) {
+		$wpdb->query($entries_tbl_sql);
 	}
 }
 
-function kgallery_setup_db() {
-	add_option("kintassa_gallery_dbver", "1.0");
-	kgallery_create_tables();
+function kintassa_catalogs_setup_db() {
+	$dbver = get_option("kintassa_catalogs_dbver", null);
+	if ($dbver == null) {
+		kintassa_catalogs_create_tables();
+		add_option("kintassa_catalogs_dbver", "1.0");
+	} else {
+		// already installed, no upgrades needed (as non exist yet)
+	}
 }
 
 ?>

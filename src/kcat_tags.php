@@ -6,14 +6,14 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_gallery.php");
+require_once('kcat_catalog.php');
 
 /***
  * publically callable function for rendering galleries in templates
  */
-function kintassa_gallery($gallery_id, $width=null, $height=null) {
-	$gal = new KintassaGallery($gallery_id);
-	$rendered_gallery = $gal->render($width, $height);
+function kintassa_catalog($catalog_id) {
+	$cat = new KintassaCatalog($catalog_id);
+	$rendered_gallery = $cat->render();
 }
 
 ?>

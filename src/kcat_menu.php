@@ -6,18 +6,18 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once("kgal_mainpage.php");
-require_once("kgal_gallery_addform.php");
-require_once("kgal_gallery_editform.php");
-require_once("kgal_gallery.php");
-require_once("kgal_image.php");
-require_once("kgal_about_page.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core" . DIRECTORY_SEPARATOR . "kin_utils.php");
+require_once(kintassa_core('kin_utils.php'));
+require_once('kcat_config.php');
+require_once('kcat_mainpage.php');
+require_once('kcat_catalog_addform.php');
+require_once('kcat_catalog_editform.php');
+require_once('kcat_catalog.php');
+require_once('kcat_catalog_entry.php');
+require_once('kcat_about_page.php');
 
-class KGalleryMenu {
+class KintassaCatalogMenu {
 	function __construct() {
-		$this->menu_title = "Galleries";
+		$this->menu_title = "Catalogs";
 		add_action('admin_menu', array(&$this, 'add_menus'));
 	}
 
@@ -51,12 +51,12 @@ class KGalleryMenu {
 
 	function mainpage() {
 		$title = null; // mainpage is just a dispatcher, so no title
-		$main_page = new KGalleryMainPage($title);
+		$main_page = new KintassaCatalogMainPage($title);
 		$main_page->execute();
 	}
 
 	function about() {
-		$about_page = new KGalleryAboutPage(__("About Kintassa Galleries"));
+		$about_page = new KintassaCatalogAboutPage(__("About Kintassa Catalog"));
 		$about_page->execute();
 	}
 }

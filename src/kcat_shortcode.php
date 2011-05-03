@@ -6,11 +6,11 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_gallery.php");
+require_once('kcat_catalog.php');
 
-class KGalleryShortcode {
+class KintassaCatalogShortcode {
 	function __construct() {
-		add_shortcode('kintassa_gallery', array(&$this, 'render_shortcode'));
+		add_shortcode('kintassa_catalog', array(&$this, 'render_shortcode'));
 	}
 
 	/***
@@ -19,19 +19,15 @@ class KGalleryShortcode {
 	function render_shortcode($atts) {
 		$known_attribs = array(
 			"id" => null,
-			"width" => null,
-			"height" => null,
 		);
 		$parsed_atts = shortcode_atts(&$known_attribs, $atts);
 
 		$id = $parsed_atts['id'];
-		$width = $parsed_atts['width'];
-		$height = $parsed_atts['height'];
 
-		$gal = new KintassaGallery($id);
-		$rendered_gallery = $gal->render($width, $height);
+		$cat = new KintassaCatalog($id);
+		$rendered_catalog = $gal->render();
 
-		return $rendered_gallery;
+		return $rendered_catalog;
 	}
 }
 

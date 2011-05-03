@@ -6,14 +6,14 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_form.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_tableform.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
-require_once("kgal_gallery.php");
-require_once("kgal_image.php");
+require_once(kintassa_core('kin_form.php'));
+require_once(kintassa_core('kin_tableform.php'));
+require_once(kintassa_core('kin_utils.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog.php');
+require_once('kcat_catalog_entry.php');
 
-class KGalleryImageTableForm extends KintassaOptionsTableForm {
+class KintassaCatalogEntryTableForm extends KintassaOptionsTableForm {
 	function process_actions() {
 		$recognised_actions = array("up", "down", "edit", "del");
 		$actions_taken = $this->buttons_submitted($recognised_actions);
@@ -37,7 +37,7 @@ class KGalleryImageTableForm extends KintassaOptionsTableForm {
 			exit ("<div class=\"notice\">Row $row_id already deleted.</div>");
 		}
 		if ($this->pager->delete($row_id)) {
-			echo ("<div class=\"notice\">Gallery image #{$row_id} deleted.</div>");
+			echo ("<div class=\"notice\">Entry #{$row_id} deleted.</div>");
 		}
 		return false;
 	}
@@ -75,7 +75,7 @@ class KGalleryImageTableForm extends KintassaOptionsTableForm {
 	}
 }
 
-class KGalleryImageRowOptionsForm extends KintassaRowForm {
+class KintassaCatalogEntryRowOptionsForm extends KintassaRowForm {
 	const Sort = 1;
 	const Edit = 2;
 	const Delete = 4;
@@ -90,19 +90,19 @@ class KGalleryImageRowOptionsForm extends KintassaRowForm {
 		);
 		$this->add_child($this->row_id_field);
 
-		if ($opts & KGalleryImageRowOptionsForm::Sort) {
+		if ($opts & KintassaCatalogEntryRowOptionsForm::Sort) {
 			$this->add_child(new KintassaButton("&uarr;", $name="up", $primary=false, $non_unique=true));
 			$this->add_child(new KintassaButton("&darr;", $name="down", $primary=false, $non_unique=true));
 		}
 
-		if ($opts & KGalleryImageRowOptionsForm::Edit) {
-			$edit_args = array("mode" => "galleryimage_edit", "id" => $row->id);
-			$edit_uri = KintassaUtils::admin_path("KGalleryMenu", "mainpage", $edit_args);
+		if ($opts & KintassaCatalogEntryRowOptionsForm::Edit) {
+			$edit_args = array("mode" => "catalogentry_edit", "id" => $row->id);
+			$edit_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $edit_args);
 			$edit_btn = new KintassaLinkButton("Edit", $name="edit", $uri = $edit_uri);
 			$this->add_child($edit_btn);
 		}
 
-		if ($opts & KGalleryImageRowOptionsForm::Delete) {
+		if ($opts & KintassaCatalogEntryRowOptionsForm::Delete) {
 			$this->add_child(new KintassaButton("Del", $name="del", $primary=false, $non_unique=true));
 		}
 	}
@@ -113,7 +113,7 @@ class KGalleryImageRowOptionsForm extends KintassaRowForm {
 	}
 }
 
-class KGalleryImageRowOptionsFactory extends KintassaRowFormFactory {
+class KintassaCatalogEntryRowOptionsFactory extends KintassaRowFormFactory {
 	function __construct($opts) {
 		$this->opts = $opts;
 	}
@@ -123,7 +123,7 @@ class KGalleryImageRowOptionsFactory extends KintassaRowFormFactory {
 	}
 }
 
-class KintassaGalleryImageDBResultsPager extends KintassaPager {
+class KintassaCatalogEntryDBResultsPager extends KintassaPager {
 	const RowSpace = 2;
 	const RowJump = 3;
 
@@ -140,7 +140,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 	}
 
 	private function modify_sort($row_id, $sort_delta) {
-		$gal = new KintassaGalleryImage($row_id);
+		$gal = new KintassaCatalogEntry($row_id);
 		if ($gal->is_dirty()) {
 			// failed to load from db; probably deleted now due to different
 			// browser windows being out of sync, so just ignore the request
@@ -157,29 +157,29 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 
 	function row_exists($row_id) {
 		global $wpdb;
-		$table_name = KintassaGalleryImage::table_name();
+		$table_name = KintassaCatalogEntry::table_name();
 		$qry = "SELECT id from {$table_name} WHERE id={$row_id}";
 		$res = $wpdb->get_results($qry);
 		return ($res != false);
 	}
 
 	function sort_up($row_id) {
-		assert($this->modify_sort($row_id, -KintassaGalleryImageDBResultsPager::RowJump) != false);
+		assert($this->modify_sort($row_id, -KintassaCatalogEntryDBResultsPager::RowJump) != false);
 	}
 
 	function sort_down($row_id) {
-		assert($this->modify_sort($row_id, KintassaGalleryImageDBResultsPager::RowJump) != false);
+		assert($this->modify_sort($row_id, KintassaCatalogEntryDBResultsPager::RowJump) != false);
 	}
 
 	private function reorder() {
 		global $wpdb;
 
-		$table_name = KintassaGalleryImage::table_name();
+		$table_name = KintassaCatalogEntry::table_name();
 		$gallery_id = $this->gallery_id;
 
 		@mysql_query("BEGIN", $wpdb->dbh);
 
-		$qry = "SELECT id FROM wp_kintassa_gal_img WHERE gallery_id={$this->gallery_id} ORDER BY sort_pri ASC,name ASC";
+		$qry = "SELECT id FROM `{$table_name}` WHERE catalog_id={$this->catalog_id} ORDER BY sort_pri ASC,name ASC";
 		$rows = $wpdb->get_results($qry);
 		if (!$rows) {
 			echo("error running query");
@@ -193,7 +193,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 				$wpdb->print_error();
 			}
 
-			$pri += KintassaGalleryImageDBResultsPager::RowSpace;
+			$pri += KintassaCatalogEntryDBResultsPager::RowSpace;
 		}
 
 		@mysql_query("COMMIT", $wpdb->dbh);
@@ -204,7 +204,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 		$fnames = array();
 
 		// original upload's filename
-		$table_name = KintassaGalleryImage::table_name();
+		$table_name = KintassaCatalogEntry::table_name();
 		$qry = "SELECT `filepath` FROM `{$table_name}` WHERE id={$row_id}";
 		$fname = $wpdb->get_var($qry);
 		$fnames[] = $fname;
@@ -221,7 +221,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 			$prefix = $basename . "__flt_";
 
 			// cached version filenames
-			$cache_dir_handle = opendir(KGAL_CACHE_PATH);
+			$cache_dir_handle = opendir(KCAT_CACHE_PATH);
 			while ($fname = readdir($cache_dir_handle)) {
 				if (substr($fname, 0, strlen($prefix)) == $prefix) {
 					$fnames[] = $fname;
@@ -291,7 +291,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 	}
 
 	function page_link($page_num) {
-		$page_args = array("mode" => "gallery_edit", "pagenum" => $page_num, "id" => $this->gallery_id);
+		$page_args = array("mode" => "catalog_edit", "pagenum" => $page_num, "id" => $this->gallery_id);
 		$page_uri = KintassaUtils::admin_path("KGalleryMenu", "mainpage", $page_args);
 		return $page_uri;
 	}
@@ -319,7 +319,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 	}
 
 	function build_count_query() {
-		$qry = "SELECT COUNT(*) FROM `{$this->table_name}` WHERE `gallery_id`={$this->gallery_id}";
+		$qry = "SELECT COUNT(*) FROM `{$this->table_name}` WHERE `catalog_id`={$this->catalog_id}";
 		return $qry;
 	}
 
@@ -332,7 +332,7 @@ class KintassaGalleryImageDBResultsPager extends KintassaPager {
 		$gallery_id = $this->gallery_id;
 
 		$start_item = $page_size * $page_num;
-		$qry = "SELECT id,sort_pri,filepath,name,description FROM `{$this->table_name}` WHERE `gallery_id`={$gallery_id} ORDER BY `sort_pri` ASC, `name` ASC LIMIT {$start_item},{$page_size}";
+		$qry = "SELECT id,sort_pri,filepath,name,description FROM `{$this->table_name}` WHERE `catalog_id`={$catalog_id} ORDER BY `sort_pri` ASC, `name` ASC LIMIT {$start_item},{$page_size}";
 
 		return $qry;
 	}

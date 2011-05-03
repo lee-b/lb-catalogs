@@ -6,17 +6,17 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_galleryimage_addform.php");
+require_once('kcat_catalog_entry_addform.php');
 
-class KGalleryImageAddPage extends KintassaPage {
+class KintassaCatalogEntryAddPage extends KintassaPage {
 	function __construct($title) {
 		parent::__construct($title);
 
-		if (!isset($_GET['gallery_id']) || !KintassaUtils::isInteger($_GET['gallery_id'])) {
-			echo("<div class=\"error\">Error: invalid gallery id specified</div>");
+		if (!isset($_GET['catalog_id']) || !KintassaUtils::isInteger($_GET['catalog_id'])) {
+			echo("<div class=\"error\">Error: invalid catalog id specified</div>");
 			return;
 		} else {
-			$gallery_id = $_GET['gallery_id'];
+			$gallery_id = $_GET['catalog_id'];
 		}
 
 		$default_vals = array(
@@ -24,9 +24,9 @@ class KGalleryImageAddPage extends KintassaPage {
 			"filepath"		=> null,
 			"name"			=> null,
 			"description"	=> "",
-			"gallery_id"	=> $gallery_id,
+			"catalog_id"	=> $catalog_id,
 		);
-		$this->addForm = new KGalleryImageAddForm("kgalimage_add", $default_vals);
+		$this->addForm = new KintassaCatalogEntryAddForm("kcatentry_add", $default_vals);
 	}
 
 	function content() {

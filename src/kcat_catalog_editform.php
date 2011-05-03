@@ -6,14 +6,14 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_gallery_form.php");
-require_once("kgal_gallery.php");
+require_once('kcat_catalog_form.php');
+require_once('kcat_catalog.php');
 
-class KGalleryEditForm extends KGalleryForm {
-	function __construct($name, $gallery_id) {
-		$kgal = new KintassaGallery($gallery_id);
+class KintassaCatalogEditForm extends KintassaCatalogForm {
+	function __construct($name, $catalog_id) {
+		$kgal = new KintassaCatalog($catalog_id);
 
-		$this->gallery_id = $gallery_id;
+		$this->catalog_id = $catalog_id;
 
 		$default_vals = array(
 			"name"				=> $kgal->name,
@@ -23,12 +23,12 @@ class KGalleryEditForm extends KGalleryForm {
 		);
 		parent::__construct($name, $default_vals);
 
-		$this->id_field = new KintassaHiddenField('id', $name='id', $default_val = $gallery_id);
+		$this->id_field = new KintassaHiddenField('id', $name='id', $default_val = $catalog_id);
 		$this->add_child($this->id_field);
 	}
 
 	function render_success() {
-		echo ("Gallery updated. Thank you.");
+		echo ("Catalog updated. Thank you.");
 	}
 
 	function update_record() {
@@ -40,7 +40,7 @@ class KGalleryEditForm extends KGalleryForm {
 		$where_dat = array("id"	=> $this->id_field->value());
 		$where_fmt = array("%d");
 
-		$wpdb->update(KintassaGallery::table_name(), $dat, $where_dat, $fmt, $where_fmt);
+		$wpdb->update(KintassaCatalog::table_name(), $dat, $where_dat, $fmt, $where_fmt);
 
 		return true;
 	}

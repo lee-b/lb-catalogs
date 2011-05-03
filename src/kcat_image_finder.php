@@ -6,18 +6,18 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . 'kintassa_core/kin_image_filter.php');
-require_once("kgal_image.php");
-require_once("kgal_gallery.php");
+require_once(kintassa_core('kin_image_filter.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog_entry.php');
+require_once('kcat_catalog.php');
 
-class KGalImageFinder extends KintassaMappedImageFinder {
+class KintassaCatalogEntryImageFinder extends KintassaMappedImageFinder {
 	function uri_from_id($id) {
 		return WP_PLUGIN_URL . "/" . basename(dirname(dirname(__file__))) . "/content/image.php?id={$id}";
 	}
 
 	function image_path_from_id($id) {
-		$img = new KintassaGalleryImage($id);
+		$img = new KintassaCatalogImage($id);
 
 		if($img->is_dirty()) {
 			echo("Couldn't load image (id: $id)");
@@ -28,9 +28,9 @@ class KGalImageFinder extends KintassaMappedImageFinder {
 		$args = array();
 
 		$gallery_id = $img->gallery_id();
-		$gal = new KintassaGallery($gallery_id);
-		if ($gal->is_dirty()) {
-			echo("Couldn't load gallery (id: $gallery_id).");
+		$cat = new KintassaCatalog($catalog_id);
+		if ($cat->is_dirty()) {
+			echo("Couldn't load catalog (id: $catalog_id).");
 			return null;
 		}
 
@@ -48,9 +48,9 @@ class KGalImageFinder extends KintassaMappedImageFinder {
 	}
 }
 
-class KintassaThumbnailFinder extends KintassaImageFinder {
+class KintassaCatalogThumbnailFinder extends KintassaImageFinder {
 	function __construct($width, $height) {
-		parent::__construct(KGAL_CACHE_PATH);
+		parent::__construct(KCAT_CACHE_PATH);
 		$this->width = $width;
 		$this->height = $height;
 	}

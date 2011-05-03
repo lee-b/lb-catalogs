@@ -6,22 +6,22 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . 'kintassa_core/kin_micro_orm.php');
+require_once('kcat_config.php');
+require_once(kintassa_core('kin_micro_orm.php'));
 
-class KintassaGalleryImage extends KintassaMicroORMObject {
+class KintassaCatalogEntry extends KintassaMicroORMObject {
 	function init() {
 		$this->sort_pri = null;
 		$this->filepath = null;
 		$this->name = null;
 		$this->mimetype = null;
 		$this->description = null;
-		$this->gallery_id = null;
+		$this->catalog_id = null;
 	}
 
 	static function table_name() {
 		global $wpdb;
-		return $wpdb->prefix . "kintassa_gal_img";
+		return $wpdb->prefix . "kintassa_catalog_entry";
 	}
 
 	function save() {
@@ -35,7 +35,7 @@ class KintassaGalleryImage extends KintassaMicroORMObject {
 			"name"			=> $this->name,
 			"mimetype"		=> $this->mimetype,
 			"description"	=> $this->description,
-			"gallery_id"	=> $this->gallery_id,
+			"catalog_id"	=> $this->catalog_id,
 		);
 		$where = array(
 			"id"			=> $this->id,
@@ -64,7 +64,7 @@ class KintassaGalleryImage extends KintassaMicroORMObject {
 		assert($this->id != null);
 
 		$table_name = $this->table_name();
-		$qry = "SELECT sort_pri,filepath,name,mimetype,description,gallery_id FROM `{$table_name}` WHERE `id`={$this->id};";
+		$qry = "SELECT sort_pri,filepath,name,mimetype,description,catalog_id FROM `{$table_name}` WHERE `id`={$this->id};";
 		$res = $wpdb->get_row($qry);
 		if (!$res) {
 			return false;
@@ -75,7 +75,7 @@ class KintassaGalleryImage extends KintassaMicroORMObject {
 		$this->name = $res->name;
 		$this->mimetype = $res->mimetype;
 		$this->description = $res->description;
-		$this->gallery_id = $res->gallery_id;
+		$this->catalog_id = $res->catalog_id;
 
 		return true;
 	}
@@ -88,8 +88,8 @@ class KintassaGalleryImage extends KintassaMicroORMObject {
 		return $this->mimetype;
 	}
 
-	function gallery_id() {
-		return $this->gallery_id;
+	function catalog_id() {
+		return $this->catalog_id;
 	}
 }
 

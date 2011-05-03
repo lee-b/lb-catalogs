@@ -6,11 +6,11 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once("kgal_gallery.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_form.php");
+require_once(kintassa_core('kin_form.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog.php');
 
-abstract class KGalleryImageForm extends KintassaForm {
+abstract class KintassaCatalogEntryForm extends KintassaForm {
 	function __construct($name, $default_vals) {
 		parent::__construct($name);
 		$this->add_widgets($default_vals);
@@ -39,9 +39,9 @@ abstract class KGalleryImageForm extends KintassaForm {
 		$this->image_band->add_child($this->image_field);
 		$this->add_child($this->image_band);
 
-		$this->gallery_id_field = new KintassaHiddenField(
-			"Gallery ID", $name="gallery_id",
-			$default_value = $def['gallery_id'], $required=true
+		$this->catalog_id_field = new KintassaHiddenField(
+			"Catalog ID", $name="catalog_id",
+			$default_value = $def['catalog_id'], $required=true
 		);
 
 		$this->desc_band = new KintassaFieldBand("descriptionband");
@@ -60,10 +60,10 @@ abstract class KGalleryImageForm extends KintassaForm {
 		$this->add_child($button_bar);
 	}
 
-	function gallery_return_link() {
-		$edit_args = array("mode" => "gallery_edit", "id" => $this->gallery_id_field->value());
-		$edit_uri = KintassaUtils::admin_path("KGalleryMenu", "mainpage", $edit_args);
-		echo ("<a href=\"$edit_uri\">" . __("Return to gallery") . "</a>");
+	function catalog_return_link() {
+		$edit_args = array("mode" => "catalog_edit", "id" => $this->catalog_id_field->value());
+		$edit_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $edit_args);
+		echo ("<a href=\"$edit_uri\">" . __("Return to catalog") . "</a>");
 	}
 
 	function data() {
@@ -71,7 +71,7 @@ abstract class KGalleryImageForm extends KintassaForm {
 			"sort_pri"				=> $this->sort_pri_field->value(),
 			"filepath"				=> $this->image_field->value(),
 			"name"					=> $this->name_field->value(),
-			"gallery_id"			=> $this->gallery_id_field->value(),
+			"catalog_id"			=> $this->catalog_id_field->value(),
 			"description"			=> $this->description_field->value(),
 		);
 
@@ -95,7 +95,7 @@ abstract class KGalleryImageForm extends KintassaForm {
 	function render($as_sub_el = false) {
 		parent::render($as_sub_el);
 
-		$this->gallery_return_link();
+		$this->catalog_return_link();
 	}
 
 	function is_valid() {

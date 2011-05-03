@@ -6,13 +6,13 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to license this product.
 */
 
-require_once("kgal_config.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_form.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
-require_once("kgal_gallery.php");
-require_once("kgal_gallery_applet.php");
+require_once(kintassa_core('kin_form.php'));
+require_once(kintassa_core('kin_utils.php'));
+require_once('kcat_config.php');
+require_once('kcat_catalog.php');
+require_once('kcat_catalog_applet.php');
 
-abstract class KGalleryForm extends KintassaForm {
+abstract class KintassaCatalogForm extends KintassaForm {
 	function __construct($name, $default_vals) {
 		parent::__construct($name);
 		$this->add_widgets($default_vals);
@@ -34,9 +34,9 @@ abstract class KGalleryForm extends KintassaForm {
 
 		$this->display_mode_field = new KintassaRadioGroup("Display method", $name="display_mode", $default_value=$def['display_mode']);
 
-		$gallery_applets = KintassaGalleryApplet::available_applets();
+		$gallery_applets = KintassaCatalogApplet::available_applets();
 		foreach ($gallery_applets as $applet_name) {
-			$applet_info = KintassaGalleryApplet::applet_info($applet_name);
+			$applet_info = KintassaCatalogApplet::applet_info($applet_name);
 			$applet_pretty_name = $applet_info['pretty_name'];
 			if ($applet_pretty_name != null) {
 				$opt_el = new KintassaRadioButton($applet_pretty_name, $name=$applet_name);
@@ -59,7 +59,7 @@ abstract class KGalleryForm extends KintassaForm {
 			"display_mode"			=> $this->display_mode_field->value(),
 		);
 
-		$gallery_applets = KintassaGalleryApplet::available_applets();
+		$gallery_applets = KintassaCatalogApplet::available_applets();
 
 		$display_mode_ok = in_array($dat['display_mode'], $gallery_applets);
 		if (!$display_mode_ok) {
@@ -85,7 +85,7 @@ abstract class KGalleryForm extends KintassaForm {
 	function is_valid() {
 		if (!parent::is_valid()) return false;
 
-		$gallery_applets = KintassaGalleryApplet::available_applets();
+		$catalog_applets = KintassaCatalogApplet::available_applets();
 
 		return $this->buttons_submitted(array('confirm')) != null;
 	}
