@@ -27,7 +27,7 @@ class KintassaCatalogTablePage extends KintassaPage {
 		$table_name = KintassaCatalog::table_name();
 		$pager = new KintassaCatalogDBResultsPager($table_name);
 
-		$row_opts = KintassaCatalogRowOptionsForm::Edit | KGalleryRowOptionsForm::Delete;
+		$row_opts = KintassaCatalogRowOptionsForm::Edit | KintassaCatalogRowOptionsForm::Delete;
 		$row_form_fac = new KintassaCatalogRowOptionsFactory($row_opts);
 		$this->table_form = new KintassaCatalogTableForm($table_name, $col_map, $pager, $row_form_fac);
 	}
