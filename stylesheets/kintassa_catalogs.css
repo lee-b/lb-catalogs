@@ -73,9 +73,11 @@ div.kintassa-page-nav {
 .kintassa-form-el label {
 	display: inline-block;
 	min-width: 100px;
+	vertical-align: top;
 }
 
-.kintassa-form-el input {
+.kintassa-form-el input,
+.kintassa-form-el textarea {
 	min-width: 300px;
 }
 

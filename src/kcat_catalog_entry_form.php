@@ -45,7 +45,7 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 		);
 
 		$this->desc_band = new KintassaFieldBand("descriptionband");
-		$this->description_field = new KintassaTextField(
+		$this->description_field = new KintassaTextAreaField(
 			"Description", $name="description",
 			$default_value = $def['description'], $required = false
 		);
