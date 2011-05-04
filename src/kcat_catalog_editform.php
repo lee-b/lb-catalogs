@@ -17,8 +17,6 @@ class KintassaCatalogEditForm extends KintassaCatalogForm {
 
 		$default_vals = array(
 			"name"				=> $kgal->name,
-			"width"				=> $kgal->width,
-			"height"			=> $kgal->height,
 			"display_mode"		=> $kgal->display_mode,
 		);
 		parent::__construct($name, $default_vals);

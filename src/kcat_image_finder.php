@@ -17,25 +17,22 @@ class KintassaCatalogEntryImageFinder extends KintassaMappedImageFinder {
 	}
 
 	function image_path_from_id($id) {
-		$img = new KintassaCatalogImage($id);
+		$ent = new KintassaCatalogEntry($id);
 
-		if($img->is_dirty()) {
-			echo("Couldn't load image (id: $id)");
+		if($ent->is_dirty()) {
+			echo("Couldn't load entry (id: $id)");
 			return null;
 		}
 
-		$orig_path = $img->file_path();
+		$orig_path = $ent->file_path();
 		$args = array();
 
-		$gallery_id = $img->gallery_id();
+		$catalog_id = $ent->catalog_id();
 		$cat = new KintassaCatalog($catalog_id);
 		if ($cat->is_dirty()) {
 			echo("Couldn't load catalog (id: $catalog_id).");
 			return null;
 		}
-
-		$args['width'] = $gal->width;
-		$args['height'] = $gal->height;
 
 		$orig_img = new KintassaResizeableImage($orig_path);
 		$filtered_path = $orig_img->filtered_path($this->cache_root, $args);

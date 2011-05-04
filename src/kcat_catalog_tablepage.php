@@ -19,8 +19,6 @@ class KintassaCatalogTablePage extends KintassaPage {
 		$col_map = array(
 			"id"				=> null,
 			"name"				=> "Name",
-			"width"				=> "Width",
-			"height"			=> "Height",
 			"display_mode"		=> "Display Mode"
 		);
 

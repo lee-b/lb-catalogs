@@ -20,8 +20,8 @@ class KintassaCatalogMainPage extends KintassaPage {
 			"catalog_list"			=> array("KintassaCatalogTablePage", __("Kintassa Catalog")),
 			"catalog_add"			=> array("KintassaCatalogAddPage", __("Add Catalog")),
 			"catalog_edit"			=> array("KintassaCatalogEditPage", __("Edit Catalog")),
-			"entry_add"				=> array("KintassaCatalogImageAddPage", __("Add Entry")),
-			"entry_edit"			=> array("KintassaCatalogImageEditPage", __("Edit Entry"))
+			"catalog_entry_add"		=> array("KintassaCatalogEntryAddPage", __("Add Entry")),
+			"catalog_entry_edit"	=> array("KintassaCatalogEntryEditPage", __("Edit Entry"))
 		);
 
 		// determine appropriate mode from web request

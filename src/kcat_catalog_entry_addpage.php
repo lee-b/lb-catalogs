@@ -16,7 +16,7 @@ class KintassaCatalogEntryAddPage extends KintassaPage {
 			echo("<div class=\"error\">Error: invalid catalog id specified</div>");
 			return;
 		} else {
-			$gallery_id = $_GET['catalog_id'];
+			$catalog_id = $_GET['catalog_id'];
 		}
 
 		$default_vals = array(

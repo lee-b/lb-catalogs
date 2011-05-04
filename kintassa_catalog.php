@@ -54,19 +54,12 @@ class KintassaCatalogPlugin extends KintassaWPPlugin {
 		}
 	}
 
-	function reg_script($name, $relpath) {
-		$abs_url = plugins_url("scripts" . DIRECTORY_SEPARATOR . $relpath, __file__);
-		wp_register_script($name, $abs_url, false, null);
-        $myStyleUrl = plugins_url('/stylesheets/kintassa_catalog.css', __file__);
-	    wp_register_style('kintassa_catalog', $myStyleUrl);
-	}
-
 	function install_scripts() {
-		$this->reg_script("jquery_cycle", "jquery.cycle.all.min.js");
+        $myStyleUrl = plugins_url('/stylesheets/kintassa_catalogs.css', __file__);
+	    wp_register_style('kintassa_catalogs', $myStyleUrl);
 
 		wp_enqueue_script("jquery");
-		wp_enqueue_script("jquery_cycle");
-        wp_enqueue_style('kintassa_catalog');
+        wp_enqueue_style('kintassa_catalogs');
 	}
 
 	function install() {

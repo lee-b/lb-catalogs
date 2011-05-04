@@ -33,11 +33,9 @@ abstract class KintassaCatalogApplet extends KintassaApplet {
 		return $GLOBALS['registered_kintassa_catalog_applets'][$applet_name];
 	}
 
-	function __construct($gallery, $width=null, $height=null) {
+	function __construct($catalog) {
 		parent::__construct();
-		$this->gallery = $gallery;
-		$this->width = $width;
-		$this->height = $height;
+		$this->catalog = $catalog;
 		$this->finder = new KCatImageFinder(KCAT_CACHE_PATH);
 	}
 
@@ -61,7 +59,7 @@ abstract class KintassaCatalogApplet extends KintassaApplet {
 		if ($this->width != null) {
 			$w = $this->width;
 		} else {
-			$w = $this->gallery->width;
+			$w = $this->catalog->width;
 		}
 		return $w;
 	}
@@ -70,7 +68,7 @@ abstract class KintassaCatalogApplet extends KintassaApplet {
 		if ($this->height != null) {
 			$h = $this->height;
 		} else {
-			$h = $this->gallery->height;
+			$h = $this->catalog->height;
 		}
 
 		return $h;

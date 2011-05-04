@@ -14,7 +14,7 @@ class KintassaCatalogAddForm extends KintassaCatalogForm {
 			"name"			=> "",
 			"width"			=> 320,
 			"height"		=> 200,
-			"display_mode"	=> "slideshow",
+			"display_mode"	=> "verticalblocks",
 		);
 		parent::__construct($name, $default_vals);
 	}

@@ -33,7 +33,7 @@ class KintassaCatalogTableForm extends KintassaOptionsTableForm {
 	}
 
 	function do_row_action_del($row_id) {
-		// TODO: cascade-delete images in gallery
+		// TODO: cascade-delete entries in the catalog
 		if ($this->pager->delete($row_id)) {
 			echo ("Catalog #{$row_id} deleted.");
 		}
@@ -81,7 +81,7 @@ class KintassaCatalogRowOptionsForm extends KintassaRowForm {
 		}
 
 		if ($opts & KintassaCatalogRowOptionsForm::Edit) {
-			$edit_args = array("mode" => "gallery_edit", "id" => $row->id);
+			$edit_args = array("mode" => "catalog_edit", "id" => $row->id);
 			$edit_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $edit_args);
 			$edit_btn = new KintassaLinkButton("Edit", $name="edit", $uri = $edit_uri);
 			$this->add_child($edit_btn);
@@ -167,8 +167,8 @@ class KintassaCatalogDBResultsPager extends KintassaPager {
 	}
 
 	function page_link($page_num) {
-		$page_args = array("mode" => "gallery_list", "pagenum" => $page_num);
-		$page_uri = KintassaUtils::admin_path("KGalleryMenu", "mainpage", $page_args);
+		$page_args = array("mode" => "catalog_list", "pagenum" => $page_num);
+		$page_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $page_args);
 		return $page_uri;
 	}
 

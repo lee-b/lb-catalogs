@@ -33,11 +33,11 @@ require_once($wp_load);
 // real code starts here /////////////////////////////////////////////////////
 
 require_once("../src/kcat_config.php");
-require_once(KCAT_ROOT_DIR . DIRECTORY_SEPARATOR . "kintassa_core/kin_utils.php");
+require_once(kintassa_core('kin_utils.php'));
 require_once(KCAT_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kcat_image_finder.php");
 
 function send_thumb($fname, $width, $height) {
-	$finder = new KintassaThumbnailFinder($width, $height);
+	$finder = new KintassaCatalogThumbnailFinder($width, $height);
 
 	$thumb_file = $finder->resized_path_to($fname);
 	if (!$thumb_file || $thumb_file == null) {
@@ -67,7 +67,7 @@ $ok = (	isset($_GET['fname']) &&
 );
 
 $fname = basename($fname); // ensure no parent directory escapes occur
-$full_orig_path = KGAL_UPLOAD_PATH . DIRECTORY_SEPARATOR . $fname;
+$full_orig_path = KCAT_UPLOAD_PATH . DIRECTORY_SEPARATOR . $fname;
 
 $ok = $ok && file_exists($full_orig_path);
 

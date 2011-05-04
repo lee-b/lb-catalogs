@@ -34,7 +34,7 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 		$this->image_band = new KintassaFieldBand("imageband");
 		$this->image_field = new KintassaImageUploadField(
 			"Image", $name="filepath",
-			$default_value = $def['filepath'], $required=true
+			$default_value = $def['filepath'], $required=true, $upload_path = KCAT_UPLOAD_PATH
 		);
 		$this->image_band->add_child($this->image_field);
 		$this->add_child($this->image_band);
@@ -51,6 +51,14 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 		);
 		$this->desc_band->add_child($this->description_field);
 		$this->add_child($this->desc_band);
+
+		$this->link_band = new KintassaFieldBand("linkband");
+		$this->link_field = new KintassaLinkField(
+			"Link", $name="link",
+			$default_value = $def['link'], $required = false
+		);
+		$this->link_band->add_child($this->link_field);
+		$this->add_child($this->link_band);
 
 		$button_bar = new KintassaFieldBand("button_bar");
 		$confirm_button = new KintassaButton(
@@ -73,6 +81,7 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 			"name"					=> $this->name_field->value(),
 			"catalog_id"			=> $this->catalog_id_field->value(),
 			"description"			=> $this->description_field->value(),
+			"link"					=> $this->link_field->value(),
 		);
 
 		return $dat;
@@ -84,6 +93,7 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 			"%s",
 			"%s",
 			"%d",
+			"%s",
 			"%s"
 		);
 		return $fmt;

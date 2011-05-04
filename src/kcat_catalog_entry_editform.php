@@ -14,15 +14,16 @@ require_once('kcat_catalog_entry.php');
 class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 	function __construct($name, $cat_entry_id) {
 		$this->id = $cat_entry_id;
-		$img = new KintassaCatalogEntry($cat_entry_id);
+		$ent = new KintassaCatalogEntry($cat_entry_id);
 
 		$default_vals = array(
-			"name"				=> $img->name,
-			"sort_pri"			=> $img->sort_pri,
-			"filepath"			=> $img->filepath,
-			"description"		=> $img->description,
-			"mimetype"			=> $img->mimetype,
-			"catalog_id"		=> $img->catalog_id,
+			"name"				=> $ent->name,
+			"sort_pri"			=> $ent->sort_pri,
+			"filepath"			=> $ent->filepath,
+			"mimetype"			=> $ent->mimetype,
+			"catalog_id"		=> $ent->catalog_id,
+			"description"		=> $ent->description,
+			"link"				=> $ent->link,
 		);
 		parent::__construct($name, $default_vals);
 
@@ -33,7 +34,7 @@ class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 	function render_success() {
 		echo("<p>" . __("Your catalog entry changes have been saved.  Thank you.") . "</p>");
 
-		$this->gallery_return_link();
+		$this->catalog_return_link();
 	}
 
 	function update_record() {

@@ -33,13 +33,23 @@ class KintassaCatalog extends KintassaMicroORMObject {
 
 		if (!isset($this->id)) {
 			// saving for the first time, so we need to insert a record
-			$dat = array("name" => $this->name, "width" => $this->width, "height" => $this->height);
-			$dat_fmt = array('%s', '%d', '%d');
+			$dat = array(
+				"name" => $this->name,
+				"width" => $this->width,
+				"height" => $this->height,
+				"display_mode" => $this->display_mode
+			);
+			$dat_fmt = array('%s', '%d', '%d', '%s');
 			$res = $wpdb->insert($this->table_name, &$dat, &$dat_fmt);
 			$this->id = $wpdb->insert_id;
 		} else {
-			$dat = array("name" => $this->name, "width" => $this->width, "height" => $this->height, "id" => $this->id);
-			$dat_fmt = array('%s', '%d', '%d', '%d');
+			$dat = array(
+				"id" => $this->id,
+				"name" => $this->name,
+				"width" => $this->width, "height" => $this->height,
+				"display_mode" => $this->display_mode
+			);
+			$dat_fmt = array('%d', '%s', '%d', '%d', '%s');
 			$where = array("id" => $this->id);
 			$res = $wpdb->update($this->table_name, &$dat, &$where, &$dat_fmt);
 		}
@@ -57,15 +67,18 @@ class KintassaCatalog extends KintassaMicroORMObject {
 
 		assert ($this->id != null);
 
-		$row = $wpdb->get_row("SELECT * FROM `{$this->table_name()}` WHERE id={$this->id}");
+		$qry = "SELECT * FROM `{$this->table_name()}` WHERE id=%d";
+		$args = array($this->id);
+		$qry = $wpdb->prepare($qry, $args);
+		$row = $wpdb->get_row($qry);
 		if (!$row) {
 			return false;
 		}
 
-		$this->name = $row->name;
+		$this->name = stripslashes($row->name);
 		$this->width = $row->width;
 		$this->height = $row->height;
-		$this->display_mode = $row->display_mode;
+		$this->display_mode = stripslashes($row->display_mode);
 
 		return true;
 	}
@@ -84,19 +97,22 @@ class KintassaCatalog extends KintassaMicroORMObject {
 		$applet->render();
 	}
 
-	function catalogs() {
+	function entries() {
 		global $wpdb;
 
 		$table_name = KintassaCatalogEntry::table_name();
-		$rows = $wpdb->get_results("SELECT id,sort_pri FROM `{$table_name}` WHERE catalog_id={$this->id} ORDER BY sort_pri ASC,name ASC");
+		$qry = "SELECT id,sort_pri FROM `{$table_name}` WHERE catalog_id=%d ORDER BY sort_pri ASC,name ASC";
+		$args = array($this->id);
+		$qry = $wpdb->prepare($qry, $args);
+		$rows = $wpdb->get_results($qry);
 
-		$images = array();
+		$entries = array();
 		foreach ($rows as $row) {
-			$img = new KintassaCatalogEntry($row->id);
-			$images[] = $img;
+			$ent = new KintassaCatalogEntry($row->id);
+			$entries[] = $ent;
 		}
 
-		return $images;
+		return $entries;
 	}
 }
 

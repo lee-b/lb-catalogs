@@ -96,7 +96,7 @@ class KintassaCatalogEntryRowOptionsForm extends KintassaRowForm {
 		}
 
 		if ($opts & KintassaCatalogEntryRowOptionsForm::Edit) {
-			$edit_args = array("mode" => "catalogentry_edit", "id" => $row->id);
+			$edit_args = array("mode" => "catalog_entry_edit", "id" => $row->id);
 			$edit_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $edit_args);
 			$edit_btn = new KintassaLinkButton("Edit", $name="edit", $uri = $edit_uri);
 			$this->add_child($edit_btn);
@@ -119,7 +119,7 @@ class KintassaCatalogEntryRowOptionsFactory extends KintassaRowFormFactory {
 	}
 
 	function instanciate($table_form, $row) {
-		return new KGalleryImageRowOptionsForm($table_form, $row, $this->opts);
+		return new KintassaCatalogEntryRowOptionsForm($table_form, $row, $this->opts);
 	}
 }
 
@@ -127,15 +127,15 @@ class KintassaCatalogEntryDBResultsPager extends KintassaPager {
 	const RowSpace = 2;
 	const RowJump = 3;
 
-	function __construct($table_name, $page_size = 10, $gallery_id = null) {
+	function __construct($table_name, $page_size = 10, $catalog_id = null) {
 		parent::__construct();
 
 		assert ($page_size > 0);
-		assert($gallery_id != null);
+		assert($catalog_id != null);
 
-		$this->table_name =  $table_name;
+		$this->table_name = $table_name;
 		$this->page_size = $page_size;
-		$this->gallery_id = $gallery_id;
+		$this->catalog_id = $catalog_id;
 		$this->results = null;
 	}
 
@@ -175,7 +175,7 @@ class KintassaCatalogEntryDBResultsPager extends KintassaPager {
 		global $wpdb;
 
 		$table_name = KintassaCatalogEntry::table_name();
-		$gallery_id = $this->gallery_id;
+		$catalog_id = $this->catalog_id;
 
 		@mysql_query("BEGIN", $wpdb->dbh);
 
@@ -291,8 +291,8 @@ class KintassaCatalogEntryDBResultsPager extends KintassaPager {
 	}
 
 	function page_link($page_num) {
-		$page_args = array("mode" => "catalog_edit", "pagenum" => $page_num, "id" => $this->gallery_id);
-		$page_uri = KintassaUtils::admin_path("KGalleryMenu", "mainpage", $page_args);
+		$page_args = array("mode" => "catalog_edit", "pagenum" => $page_num, "id" => $this->catalog_id);
+		$page_uri = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $page_args);
 		return $page_uri;
 	}
 
@@ -329,10 +329,10 @@ class KintassaCatalogEntryDBResultsPager extends KintassaPager {
 		$page_num = $this->current_page();
 		$page_num -= 1; // count from zero
 
-		$gallery_id = $this->gallery_id;
+		$catalog_id = $this->catalog_id;
 
 		$start_item = $page_size * $page_num;
-		$qry = "SELECT id,sort_pri,filepath,name,description FROM `{$this->table_name}` WHERE `catalog_id`={$catalog_id} ORDER BY `sort_pri` ASC, `name` ASC LIMIT {$start_item},{$page_size}";
+		$qry = "SELECT id,sort_pri,filepath,name,description,link FROM `{$this->table_name}` WHERE `catalog_id`={$catalog_id} ORDER BY `sort_pri` ASC, `name` ASC LIMIT {$start_item},{$page_size}";
 
 		return $qry;
 	}

@@ -16,6 +16,7 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		$this->name = null;
 		$this->mimetype = null;
 		$this->description = null;
+		$this->link = null;
 		$this->catalog_id = null;
 	}
 
@@ -28,13 +29,14 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		// TODO: Not implemented
 		global $wpdb;
 
-		$table_name = KintassaGalleryImage::table_name();
+		$table_name = KintassaCatalogEntry::table_name();
 		$data = array(
 			"sort_pri"		=> $this->sort_pri,
 			"filepath"		=> $this->filepath,
 			"name"			=> $this->name,
 			"mimetype"		=> $this->mimetype,
 			"description"	=> $this->description,
+			"link"			=> $this->link,
 			"catalog_id"	=> $this->catalog_id,
 		);
 		$where = array(
@@ -42,6 +44,7 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		);
 		$data_fmt = array(
 			"%d",
+			"%s",
 			"%s",
 			"%s",
 			"%s",
@@ -64,17 +67,20 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		assert($this->id != null);
 
 		$table_name = $this->table_name();
-		$qry = "SELECT sort_pri,filepath,name,mimetype,description,catalog_id FROM `{$table_name}` WHERE `id`={$this->id};";
+		$qry = "SELECT sort_pri,filepath,name,mimetype,description,link,catalog_id FROM `{$table_name}` WHERE `id`=%s;";
+		$args = array($this->id);
+		$qry = $wpdb->prepare($qry, $args);
 		$res = $wpdb->get_row($qry);
 		if (!$res) {
 			return false;
 		}
 
 		$this->sort_pri = $res->sort_pri;
-		$this->filepath = $res->filepath;
-		$this->name = $res->name;
-		$this->mimetype = $res->mimetype;
-		$this->description = $res->description;
+		$this->filepath = stripslashes($res->filepath);
+		$this->name = stripslashes($res->name);
+		$this->mimetype = stripslashes($res->mimetype);
+		$this->description = stripslashes($res->description);
+		$this->link = stripslashes($res->link);
 		$this->catalog_id = $res->catalog_id;
 
 		return true;

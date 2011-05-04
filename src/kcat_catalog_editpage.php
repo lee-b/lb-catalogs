@@ -24,15 +24,16 @@ class KintassaCatalogEditPage extends KintassaPage {
 		$this->editForm = new KintassaCatalogEditForm("kcat_edit", $catalog_id);
 	}
 
-	function images_subform() {
-		$form_name = "kgallery_images";
+	function entries_subform() {
+		$form_name = "kcatalog_entries";
 
 		$col_map = array(
 			"id"			=> null,
 			"sort_pri"		=> "Sort Order",
 			"filepath"		=> "Image",
 			"name"			=> "Name",
-			"description"	=> "Description"
+			"description"	=> "Description",
+			"link"			=> "Link"
 		);
 
 		$table_name = KintassaCatalogEntry::table_name();
@@ -42,21 +43,21 @@ class KintassaCatalogEditPage extends KintassaPage {
 
 		$row_opts = KintassaCatalogEntryRowOptionsForm::All;
 		$row_form_fac = new KintassaCatalogEntryRowOptionsFactory($row_opts);
-		$images_table_form = new KintassaCatalogEntryTableForm($form_name, $col_map, $pager, $row_form_fac);
-		$images_table_form->execute();
+		$entries_table_form = new KintassaCatalogEntryTableForm($form_name, $col_map, $pager, $row_form_fac);
+		$entries_table_form->execute();
 	}
 
 	function add_options() {
-		$add_image_args = array("mode" => "catalog_entry_add", "catalog_id" => $this->catalog_id);
-		$add_image_link = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $add_image_args);
+		$add_entry_args = array("mode" => "catalog_entry_add", "catalog_id" => $this->catalog_id);
+		$add_entry_link = KintassaUtils::admin_path("KintassaCatalogMenu", "mainpage", $add_entry_args);
 
-		$this->add_image_button = new KintassaLinkButton("Add Entry", $name="add_catalog_entry", $uri=$add_image_link);
-		$this->add_image_button->render();
+		$this->add_entry_button = new KintassaLinkButton("Add Entry", $name="add_catalog_entry", $uri=$add_entry_link);
+		$this->add_entry_button->render();
 	}
 
 	function content() {
 		$this->editForm->execute();
-		$this->images_subform();
+		$this->entries_subform();
 		$this->add_options($this->editForm);
 	}
 }

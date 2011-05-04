@@ -22,20 +22,14 @@ abstract class KintassaCatalogForm extends KintassaForm {
 		$this->name_field = new KintassaTextField("Name", $name="name", $default_value = $def['name'], $required=true);
 		$this->add_child($this->name_field);
 
-		$width_band = new KintassaFieldBand("width_band");
-		$this->width_field = new KintassaIntegerField("Width", $name="width", $default_value = $def['width'], $required=true);
-		$width_band->add_child($this->width_field);
-		$this->add_child($width_band);
+		$this->display_mode_field = new KintassaRadioGroup(
+			"Display method",
+			$name="display_mode",
+			$default_value=$def['display_mode']
+		);
 
-		$height_band = new KintassaFieldBand("height_band");
-		$this->height_field = new KintassaIntegerField("Height", $name="height", $default_value = $def['height'], $required=true);
-		$height_band->add_child($this->height_field);
-		$this->add_child($height_band);
-
-		$this->display_mode_field = new KintassaRadioGroup("Display method", $name="display_mode", $default_value=$def['display_mode']);
-
-		$gallery_applets = KintassaCatalogApplet::available_applets();
-		foreach ($gallery_applets as $applet_name) {
+		$catalog_applets = KintassaCatalogApplet::available_applets();
+		foreach ($catalog_applets as $applet_name) {
 			$applet_info = KintassaCatalogApplet::applet_info($applet_name);
 			$applet_pretty_name = $applet_info['pretty_name'];
 			if ($applet_pretty_name != null) {
@@ -54,14 +48,12 @@ abstract class KintassaCatalogForm extends KintassaForm {
 	function data() {
 		$dat = array(
 			"name"					=> $this->name_field->value(),
-			"width"					=> $this->width_field->value(),
-			"height"				=> $this->height_field->value(),
 			"display_mode"			=> $this->display_mode_field->value(),
 		);
 
-		$gallery_applets = KintassaCatalogApplet::available_applets();
+		$catalog_applets = KintassaCatalogApplet::available_applets();
 
-		$display_mode_ok = in_array($dat['display_mode'], $gallery_applets);
+		$display_mode_ok = in_array($dat['display_mode'], $catalog_applets);
 		if (!$display_mode_ok) {
 			$dat['display_mode'] = 'invalid';
 		}
@@ -72,8 +64,6 @@ abstract class KintassaCatalogForm extends KintassaForm {
 	function data_format() {
 		$fmt = array(
 			"%s",
-			"%d",
-			"%d",
 			"%s"
 		);
 		return $fmt;

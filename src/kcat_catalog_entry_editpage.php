@@ -12,10 +12,10 @@ class KintassaCatalogEntryEditPage extends KintassaPage {
 	function __construct($title) {
 		parent::__construct($title);
 
-		$gallery_image_id = $_GET['id'];
-		assert (KintassaUtils::isInteger($gallery_image_id));
+		$catalog_entry_id = $_GET['id'];
+		assert (KintassaUtils::isInteger($catalog_entry_id));
 
-		$this->editForm = new KintassaCatalogEntryEditForm("kcatentry_edit", $gallery_image_id);
+		$this->editForm = new KintassaCatalogEntryEditForm("kcatentry_edit", $catalog_entry_id);
 	}
 
 	function content() {

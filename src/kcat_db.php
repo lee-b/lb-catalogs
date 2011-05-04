@@ -14,14 +14,12 @@ global $wpdb;
 function kintassa_catalogs_create_tables() {
 	global $wpdb;
 
-	$gallery_tbl_name = KintassaCatalog::table_name();
+	$catalogs_tbl_name = KintassaCatalog::table_name();
 
-	$gallery_tbl_sql = <<<SQL
-		CREATE TABLE {$gallery_tbl_name} (
+	$catalogs_tbl_sql = <<<SQL
+		CREATE TABLE {$catalogs_tbl_name} (
 			`id` INT NOT NULL AUTO_INCREMENT ,
 			`name` VARCHAR(128) NULL ,
-			`width` INT NULL ,
-			`height` INT NULL ,
 			`display_mode` VARCHAR(16),
 			PRIMARY KEY (`id`)
 		)
@@ -41,6 +39,7 @@ SQL;
 		  `mimetype` VARCHAR(255) NULL ,
 		  `description` VARCHAR(255) NULL ,
 		  `catalog_id` INT NOT NULL,
+		  `link` VARCHAR(255),
 		  PRIMARY KEY (`id`)
 		)
 		ENGINE = InnoDB
@@ -48,8 +47,8 @@ SQL;
 		COLLATE = utf8_unicode_ci;
 SQL;
 
-	if (!KintassaMicroORMObject::table_exists($gallery_tbl_name)) {
-		$wpdb->query($gallery_tbl_sql);
+	if (!KintassaMicroORMObject::table_exists($catalogs_tbl_name)) {
+		$wpdb->query($catalogs_tbl_sql);
 	}
 
 	if (!KintassaMicroORMObject::table_exists($entries_tbl_name)) {
