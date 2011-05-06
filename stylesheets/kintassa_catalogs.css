@@ -125,3 +125,7 @@ table.kintassa-form-el {
 	margin-bottom: 5px;
 }
 
+table.upload-summary th {
+	text-align: left;
+	vertical-align: top;
+}

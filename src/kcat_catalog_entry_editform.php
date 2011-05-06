@@ -15,6 +15,7 @@ class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 	function __construct($name, $cat_entry_id) {
 		$this->id = $cat_entry_id;
 		$ent = new KintassaCatalogEntry($cat_entry_id);
+		assert(!$ent->is_dirty());
 
 		$default_vals = array(
 			"name"				=> $ent->name,
@@ -27,7 +28,7 @@ class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 		);
 		parent::__construct($name, $default_vals);
 
-		$this->id_field = new KintassaHiddenField('id', $name='id', $default_val = $cat_entry_id);
+		$this->id_field = new KintassaHiddenField('id', $name='id', $default_value = $cat_entry_id);
 		$this->add_child($this->id_field);
 	}
 
@@ -42,6 +43,8 @@ class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 
 		$dat = $this->data();
 		$fmt = $this->data_format();
+
+		kin_dbg("update_record data", $dat);
 
 		$where_dat = array("id"	=> $this->id);
 		$where_fmt = array("%d");

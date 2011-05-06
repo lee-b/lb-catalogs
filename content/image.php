@@ -32,24 +32,23 @@ require_once($wp_load);
 
 // real code starts here /////////////////////////////////////////////////////
 
-require_once("../src/kgal_config.php");
-require_once(WP_PLUGIN_DIR . 'Kintassa_Core/kintassa_core.php');
+require_once(kin_cat_inc('kcat_config.php'));
 require_once(kintassa_core('kin_utils.php'));
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kgal_image_finder.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kgal_image.php");
-require_once(KGAL_ROOT_DIR . DIRECTORY_SEPARATOR . "src/kgal_gallery.php");
+require_once(kin_cat_inc('kcat_image_finder.php'));
+require_once(kin_cat_inc('kcat_catalog_entry.php'));
+require_once(kin_cat_inc('kcat_catalog.php'));
 
-function send_gallery_image_by_id($id) {
+function send_catalog_entry_image_by_id($id) {
 	// load basic image details from db
-	$img = new KintassaGalleryImage($id);
-	if ($img->is_dirty()) {
-		exit("ERROR: Couldn't load gallery image: $id");
+	$ent = new KintassaCatalogEntry($id);
+	if ($ent->is_dirty()) {
+		exit("ERROR: Couldn't load catalog entry: $id");
 	}
-	$ctype = $img->mime_type();
+	$ctype = $ent->mime_type();
 
 	// find/generate a version of the image that's scaled correctly for this
 	// gallery
-	$finder = new KGalImageFinder(KGAL_CACHE_PATH);
+	$finder = new KintassaCatalogEntryImageFinder(KCAT_CACHE_PATH);
 	$path = $finder->image_path_from_id($id);
 	if (!$path) {
 		exit("ERROR: Couldn't locate image file for image id $id");
@@ -63,7 +62,7 @@ function send_gallery_image_by_id($id) {
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];
 	assert(KintassaUtils::isInteger($id));
-	send_gallery_image_by_id($id);
+	send_catalog_entry_image_by_id($id);
 } else {
 	header("HTTP/1.0 404 Not found");
 	header("Status: 404 Not found");

@@ -26,6 +26,8 @@ class KintassaCatalogEntryImageFinder extends KintassaMappedImageFinder {
 
 		$orig_path = $ent->file_path();
 		$args = array();
+		$args['width'] = 320;
+		$args['height'] = 200;
 
 		$catalog_id = $ent->catalog_id();
 		$cat = new KintassaCatalog($catalog_id);

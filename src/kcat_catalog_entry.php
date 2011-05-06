@@ -29,6 +29,8 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		// TODO: Not implemented
 		global $wpdb;
 
+		assert(file_exists($this->filepath) && is_file($this->filepath));
+
 		$table_name = KintassaCatalogEntry::table_name();
 		$data = array(
 			"sort_pri"		=> $this->sort_pri,
@@ -72,6 +74,7 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 		$qry = $wpdb->prepare($qry, $args);
 		$res = $wpdb->get_row($qry);
 		if (!$res) {
+			echo("Couldn't load entry: $this->id");
 			return false;
 		}
 

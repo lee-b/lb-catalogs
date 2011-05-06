@@ -10,10 +10,11 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa for licensing.
 */
 
-
 if (!function_exists('kintassa_core')) {
 	require_once ( WP_PLUGIN_DIR . '/Kintassa_Core/kintassa_core.php' );
 }
+
+kin_dbg("Catalog loaded.");
 
 function kin_cat_inc($subpath) {
 	$full_subpath = "src/" . $subpath;

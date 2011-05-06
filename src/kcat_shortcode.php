@@ -25,7 +25,7 @@ class KintassaCatalogShortcode {
 		$id = $parsed_atts['id'];
 
 		$cat = new KintassaCatalog($id);
-		$rendered_catalog = $gal->render();
+		$rendered_catalog = $cat->render();
 
 		return $rendered_catalog;
 	}

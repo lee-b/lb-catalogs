@@ -21,6 +21,13 @@ abstract class KintassaCatalogApplet extends KintassaApplet {
 		);
 	}
 
+	function template_path($applet_name, $template_name) {
+		$template_dir = dirname(dirname(__file__)) . DIRECTORY_SEPARATOR . "templates";
+		$fname = basename("applet_" . $applet_name . "__" . $template_name . ".php");
+		$template = $template_dir . DIRECTORY_SEPARATOR . $fname;
+		return $template;
+	}
+
 	static function available_applets() {
 		return array_keys($GLOBALS['registered_kintassa_catalog_applets']);
 	}
@@ -36,15 +43,11 @@ abstract class KintassaCatalogApplet extends KintassaApplet {
 	function __construct($catalog) {
 		parent::__construct();
 		$this->catalog = $catalog;
-		$this->finder = new KCatImageFinder(KCAT_CACHE_PATH);
+		$this->finder = new KintassaCatalogEntryImageFinder(KCAT_CACHE_PATH);
 	}
 
 	function unique_id() {
 		return "kintassa-catalog-{$this->catalog->id}";
-	}
-
-	function image_uri($img) {
-		return $this->finder->uri_from_id($img->id);
 	}
 
 	function classes() {

@@ -34,7 +34,9 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 		$this->image_band = new KintassaFieldBand("imageband");
 		$this->image_field = new KintassaImageUploadField(
 			"Image", $name="filepath",
-			$default_value = $def['filepath'], $required=true, $upload_path = KCAT_UPLOAD_PATH
+			$default_value = $def['filepath'], $required=true,
+			$upload_path = KCAT_UPLOAD_PATH,
+			$thumb_url = WP_PLUGIN_URL . "/" . basename(dirname(dirname(__file__))) . "/content/thumb.php"
 		);
 		$this->image_band->add_child($this->image_field);
 		$this->add_child($this->image_band);
@@ -77,11 +79,11 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 	function data() {
 		$dat = array(
 			"sort_pri"				=> $this->sort_pri_field->value(),
-			"filepath"				=> $this->image_field->value(),
 			"name"					=> $this->name_field->value(),
 			"catalog_id"			=> $this->catalog_id_field->value(),
 			"description"			=> $this->description_field->value(),
 			"link"					=> $this->link_field->value(),
+			"filepath"				=> $this->image_field->value()
 		);
 
 		return $dat;
@@ -89,17 +91,17 @@ abstract class KintassaCatalogEntryForm extends KintassaForm {
 
 	function data_format() {
 		$fmt = array(
-			"%s",
-			"%s",
+			"%d",
 			"%s",
 			"%d",
+			"%s",
 			"%s",
 			"%s"
 		);
 		return $fmt;
 	}
 
-	/// update the record in the database, based on the form details
+	// update the record in the database, based on the form details
 	abstract function update_record();
 
 	function render($as_sub_el = false) {
