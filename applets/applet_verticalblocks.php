@@ -24,6 +24,10 @@ class KintassaVerticalBlocksApplet extends KintassaCatalogApplet {
 		return $cls;
 	}
 
+	function styles_attrib_str() {
+		return "";
+	}
+	
 	function render() {
 		$applet = $this;
 
