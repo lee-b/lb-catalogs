@@ -5,7 +5,7 @@ Copyright: Copyright (c) 2011 Kintassa.
 License: All rights reserved.  Contact Kintassa should you wish to use this product.
 */
 
-div.kintassa-gallery-app {
+div.kintassa-catalogs-app {
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -38,26 +38,9 @@ fieldset.kintassa-radiogroup-heading legend {
 	padding-bottom: 7px;
 }
 
-div.kintassa-gallery-app ul.slideshow-image-list li {
-	visibility: hidden;
-}
-
-div.kintassa-gallery-app ul.slideshow-image-list li.first-item {
-	visibility: visible;
-}
-
-div.kintassa-gallery-app ul.slideshow-image-list li {
-	list-style-type: none;
-}
-
 div.kintassa-fieldband .button-primary {
 	margin-top: 10px;
 	margin-bottom: 20px;
-}
-
-div.kintassa-gallery-app ul.slideshow-image-list,
-div.kintassa-gallery-app ul.slideshow-image-list li {
-	margin: 0;
 }
 
 div.uploaded-thumbnail {
@@ -110,16 +93,6 @@ div.kintassa-page-nav {
 	margin-right: 20px;
 }
 
-.gallery-app-pager,
-.gallery-app-nav {
-	text-align: center;
-}
-
-.gallery-app-pager a {
-	margin-left: 3px;
-	margin-right: 3px;
-}
-
 table.kintassa-form-el {
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -128,4 +101,36 @@ table.kintassa-form-el {
 table.upload-summary th {
 	text-align: left;
 	vertical-align: top;
+}
+
+div.kintassa-catalog-entry {
+	clear: both;
+}
+
+div.kintassa-catalog-entry div.image {
+	width: 200px;
+	height: 200px;
+
+	margin: 0;
+	border: 0;
+	padding: 0;
+
+	float: left;
+	margin-right: 5px;
+}
+
+div.kintassa-applet-verticalblocks div.kintassa-catalog-entry {
+	height: 200px;
+}
+
+div.kintassa-applet-verticalblocks div.odd {
+	background-color: gray;
+}
+
+div.kintassa-applet-verticalblocks div.even {
+	background-color: darkgray;
+}
+
+div.kintassa-applet-verticalblocks div:hover {
+	background-color: lightgray;
 }

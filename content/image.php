@@ -38,7 +38,12 @@ require_once(kin_cat_inc('kcat_image_finder.php'));
 require_once(kin_cat_inc('kcat_catalog_entry.php'));
 require_once(kin_cat_inc('kcat_catalog.php'));
 
-function send_catalog_entry_image_by_id($id) {
+function send_catalog_entry_image_by_id($id, $w, $h) {
+	assert(KintassaUtils::isInteger($w));
+	assert(KintassaUtils::isInteger($h));
+	if($w <= 0) { exit("Invalid width: $w"); }
+	if($h <= 0) { exit("Invalid width: $h"); }
+
 	// load basic image details from db
 	$ent = new KintassaCatalogEntry($id);
 	if ($ent->is_dirty()) {
@@ -48,7 +53,7 @@ function send_catalog_entry_image_by_id($id) {
 
 	// find/generate a version of the image that's scaled correctly for this
 	// gallery
-	$finder = new KintassaCatalogEntryImageFinder(KCAT_CACHE_PATH);
+	$finder = new KintassaCatalogEntryImageFinder(KCAT_CACHE_PATH, $w, $h);
 	$path = $finder->image_path_from_id($id);
 	if (!$path) {
 		exit("ERROR: Couldn't locate image file for image id $id");
@@ -61,8 +66,25 @@ function send_catalog_entry_image_by_id($id) {
 
 if (isset($_GET['id'])) {
 	$id = $_GET['id'];
-	assert(KintassaUtils::isInteger($id));
-	send_catalog_entry_image_by_id($id);
+	$width = $_GET['width'];
+	$height = $_GET['height'];
+	if (!KintassaUtils::isInteger($id)) {
+		exit("Error: invalid image ID requested");
+	}
+	if ( !KintassaUtils::isInteger($width) ) {
+		exit("Error: invalid image width requested -- not an integer");
+	}
+	if ( ($width <= 0) || ($width > 2048) ) {
+		exit("Error: invalid image width requested -- bad dimensions");
+	}
+	if ( !KintassaUtils::isInteger($height) ) {
+		exit("Error: invalid image height requested -- not an integer");
+	}
+	if ( ($height <= 0) || ($height > 2048) ) {
+		exit("Error: invalid image height requested -- bad dimensions");
+	}
+
+	send_catalog_entry_image_by_id($id, $width, $height);
 } else {
 	header("HTTP/1.0 404 Not found");
 	header("Status: 404 Not found");

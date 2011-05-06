@@ -10,10 +10,25 @@ require_once(kintassa_core('kin_image_filter.php'));
 require_once('kcat_config.php');
 require_once('kcat_catalog_entry.php');
 require_once('kcat_catalog.php');
+require_once(kintassa_core('kin_utils.php'));
 
 class KintassaCatalogEntryImageFinder extends KintassaMappedImageFinder {
+	function __construct($cache_root, $w, $h) {
+		parent::__construct($cache_root);
+
+		assert(KintassaUtils::isInteger($w));
+		assert(KintassaUtils::isInteger($h));
+		assert($w > 0);
+		assert($h > 0);
+
+		$this->cache_root = $cache_root;
+		$this->width = $w;
+		$this->height = $h;
+	}
+
 	function uri_from_id($id) {
-		return WP_PLUGIN_URL . "/" . basename(dirname(dirname(__file__))) . "/content/image.php?id={$id}";
+		$uri = WP_PLUGIN_URL . "/" . basename(dirname(dirname(__file__))) . "/content/image.php?id={$id}&width={$this->width}&height={$this->height}";
+		return $uri;
 	}
 
 	function image_path_from_id($id) {
@@ -26,8 +41,8 @@ class KintassaCatalogEntryImageFinder extends KintassaMappedImageFinder {
 
 		$orig_path = $ent->file_path();
 		$args = array();
-		$args['width'] = 320;
-		$args['height'] = 200;
+		$args['width'] = $this->width;
+		$args['height'] = $this->height;
 
 		$catalog_id = $ent->catalog_id();
 		$cat = new KintassaCatalog($catalog_id);

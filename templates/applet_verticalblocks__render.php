@@ -31,7 +31,10 @@ License: All rights reserved.  Contact Kintassa should you wish to license this 
 			?>
 			<div <?php echo $cls; ?>>
 				<div class="image">
-					<img src="<?php echo $applet->finder->uri_from_id($ent->id); ?>">
+					<?php
+						$image_uri = $applet->finder->uri_from_id($ent->id);
+					?>
+					<img src="<?php echo $image_uri; ?>">
 				</div>
 				<div class="details">
 					<div class="name">

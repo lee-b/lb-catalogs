@@ -11,9 +11,10 @@ require_once('kcat_catalog.php');
 /***
  * publically callable function for rendering galleries in templates
  */
-function kintassa_catalog($catalog_id) {
+function kintassa_catalog($catalog_id, $w, $h) {
 	$cat = new KintassaCatalog($catalog_id);
-	$rendered_gallery = $cat->render();
+	$rendered_html = $cat->render($w, $h);
+	return($rendered_html);
 }
 
 ?>

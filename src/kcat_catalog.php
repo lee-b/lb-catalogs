@@ -83,7 +83,7 @@ class KintassaCatalog extends KintassaMicroORMObject {
 		return true;
 	}
 
-	function render($width = null, $height = null) {
+	function render($width, $height) {
 		assert($this->id != null);
 
 		if (!KintassaCatalogApplet::is_valid_applet($this->display_mode)) {
@@ -93,7 +93,7 @@ class KintassaCatalog extends KintassaMicroORMObject {
 		$applet_info = KintassaCatalogApplet::applet_info($this->display_mode);
 		$applet_class = $applet_info['class'];
 
-		$applet = new $applet_class($this, $width=$width, $height=$height);
+		$applet = new $applet_class($this, $width, $height);
 		$applet->render();
 	}
 
