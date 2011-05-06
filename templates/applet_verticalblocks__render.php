@@ -30,10 +30,22 @@ License: All rights reserved.  Contact Kintassa should you wish to license this 
 			$cls = "class=\"" . implode(" ", $classes) . "\"";
 			?>
 			<div <?php echo $cls; ?>>
-				<div class="name"><?php echo $ent->name; ?></div>
-				<div class="description"><?php echo $ent->description; ?></div>
 				<div class="image">
 					<img src="<?php echo $applet->finder->uri_from_id($ent->id); ?>">
+				</div>
+				<div class="details">
+					<div class="name">
+						<?php
+							if ($ent->link) {
+								?><a href="<?php echo $ent->link; ?>"><?php
+							}
+							echo $ent->name;
+							if ($ent->link) {
+								?></a><?php
+							}
+						?>
+					</div>
+					<div class="description"><?php echo $ent->description; ?></div>
 				</div>
 			</div>
 	<?php } ?>
