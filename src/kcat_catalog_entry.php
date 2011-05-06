@@ -26,7 +26,6 @@ class KintassaCatalogEntry extends KintassaMicroORMObject {
 	}
 
 	function save() {
-		// TODO: Not implemented
 		global $wpdb;
 
 		assert(file_exists($this->filepath) && is_file($this->filepath));
