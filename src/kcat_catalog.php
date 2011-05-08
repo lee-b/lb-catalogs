@@ -94,7 +94,7 @@ class KintassaCatalog extends KintassaMicroORMObject {
 		$applet_class = $applet_info['class'];
 
 		$applet = new $applet_class($this, $width, $height);
-		$applet->render();
+		return $applet->render();
 	}
 
 	function entries() {

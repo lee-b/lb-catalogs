@@ -46,9 +46,9 @@ class KintassaCatalogShortcode {
 		$image_height = (int) $image_height;
 
 		$cat = new KintassaCatalog($id);
-		$rendered_catalog = $cat->render($image_width, $image_height);
+		$template_html = $cat->render($image_width, $image_height);
 
-		return $rendered_catalog;
+		return $template_html;
 	}
 }
 

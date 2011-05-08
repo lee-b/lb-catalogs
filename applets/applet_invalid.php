@@ -37,7 +37,13 @@ class KintassaInvalidCatalogApplet extends KintassaCatalogApplet {
 		$not_avail_msg = __("This catalog cannot be displayed. Please check the catalog ID exists, (re)install the necessary CatalogApplets for its display method, or change the display method to one that's currently available.");
 
 		$template = $this->template_path("invalid", "render");
+
+		ob_start();
 		require($template);
+		$template_html = ob_get_contents();
+		ob_end_clean();
+
+		return $template_html;
 	}
 }
 
