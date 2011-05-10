@@ -11,15 +11,60 @@
 
 		<h2>Introduction</h2>
 
-		<p>This plugin provides an easy, intuitive interface for creating catalogs.</p>
+		<p>This plugin provides an easy, intuitive interface for creating
+		catalogs.  Features include:</p>
+
+		<ul>
+			<li>Multiple Catalogs</li>
+			<li>Multiple Entries per catalog</li>
+			<li>Images, descriptions, titles, and links in each catalog entry</li>
+			<li>Images automatically scaleable to suit the styling of each
+			page, on a per-page basis.</li>
+			<li>Links only used if provided</li>
+			<li>Plugin architecture for new/alternative rendering methods</li>
+		</ul>
+		
+				
+		<h2>Shortcodes and tags</h2>
+		
+		<p>Render a Catalog in post/page content using the
+		<code>kintassa_catalog</code> shortcode, as follows:</p>
+
+		<p>
+			<code>
+				[kintassa_catalog id="1" image_width="200" image_height="200"]
+			</code>
+		</p>
+
+		<p>This will render the catalog from the admin that has the given
+		id, scaling any images in the entries to fit the given dimensions.</p>
+
+		<p>In php code, use the <code>kintassa_catalog</code> tag/function, as
+		follows:</p>
+
+		<p>
+			<code>
+				&lt;?php echo kintassa_catalog(1, image_width=200, image_height=200); &gt;
+			</code>
+		</p>
 
 
 		<h2>Contacting Kintassa</h2>
 
-		<p>If you have any questions about this plugin, please contact Kintassa:</p>
+		<p>If you have any questions about this plugin, please contact
+		Kintassa:</p>
 
-		<p>Support: <a href="mailto:support@kintassa.com?subject=Kintassa+Catalogs+Plugin">support@kintassa.com</a></p>
-		<p>Sales: <a href="mailto:sales@kintassa.com?subject=Kintassa+Catalogs+Plugin">sales@kintassa.com</a></p>
+		<p>Support:
+			<a href="mailto:support@kintassa.com?subject=Kintassa+Catalogs+Plugin">
+				support@kintassa.com
+			</a>
+		</p>
+		
+		<p>Sales:
+			<a href="mailto:sales@kintassa.com?subject=Kintassa+Catalogs+Plugin">
+				sales@kintassa.com
+			</a>
+		</p>
 
 		<p>We hope you enjoy Kintassa Catalogs!</p>
 	</body>
