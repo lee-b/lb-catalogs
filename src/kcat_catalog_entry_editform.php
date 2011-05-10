@@ -44,8 +44,6 @@ class KintassaCatalogEntryEditForm extends KintassaCatalogEntryForm {
 		$dat = $this->data();
 		$fmt = $this->data_format();
 
-		kin_dbg("update_record data", $dat);
-
 		$where_dat = array("id"	=> $this->id);
 		$where_fmt = array("%d");
 
