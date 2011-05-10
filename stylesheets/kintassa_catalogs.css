@@ -119,18 +119,11 @@ div.kintassa-catalog-entry div.image {
 	margin-right: 5px;
 }
 
-div.kintassa-applet-verticalblocks div.kintassa-catalog-entry {
-	height: 200px;
+div.kintassa-catalog-entry div.details {
+	margin-left: 200px;
 }
 
-div.kintassa-applet-verticalblocks div.odd {
-	background-color: gray;
-}
-
-div.kintassa-applet-verticalblocks div.even {
-	background-color: darkgray;
-}
-
-div.kintassa-applet-verticalblocks div:hover {
-	background-color: lightgray;
+img.applet-verticalblocks-divider {
+	width: 100%;
+	height: 5px;
 }

@@ -35,6 +35,8 @@ class KintassaVerticalBlocksApplet extends KintassaCatalogApplet {
 		$unique_id = $this->unique_id();
 		$cls = $this->classes_attrib_str();
 		$sty = $this->styles_attrib_str();
+		$plugin_name = basename(dirname(dirname(__file__)));
+		$divider_uri = plugins_url($plugin_name . "/static/divider.jpg", $plugin_name);
 
 		$template = $this->template_path("verticalblocks", "render");
 
