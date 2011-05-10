@@ -37,7 +37,7 @@ SQL;
 		  `filepath` VARCHAR(4096) NULL ,
 		  `name` VARCHAR(255) NULL ,
 		  `mimetype` VARCHAR(255) NULL ,
-		  `description` VARCHAR(255) NULL ,
+		  `description` TEXT,
 		  `catalog_id` INT NOT NULL,
 		  `link` VARCHAR(255),
 		  PRIMARY KEY (`id`)
